@@ -1,10 +1,10 @@
 import {applyMiddleware, combineReducers, compose, legacy_createStore as createStore} from "redux";
 import thunkMiddleware from "redux-thunk"
-import hackernews_reducer from "./hackernews_reducer";
+import newsList_reducer from "./newslist_reducer";
 
 
 let reducers = combineReducers({
-    hackernews_reducer:hackernews_reducer,
+    newsList_reducer:newsList_reducer,
 })
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
