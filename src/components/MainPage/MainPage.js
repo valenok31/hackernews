@@ -1,6 +1,6 @@
 import React, {useEffect} from "react";
 import {connect} from "react-redux";
-import {handleNewsList, handleNewsPage, setUpdateNews,} from "../../redux/newslist_reducer";
+import {handleComments, handleNewsList, handleNewsPage, setUpdateNews,} from "../../redux/newslist_reducer";
 import s from "./MainPage.module.css";
 import MainPageList from "./MainPageList";
 import {Link} from "react-router-dom";
@@ -16,6 +16,7 @@ const MainPage = function (props) {
             return <div key={x.id}>
                 <Link to={'/'+ x.id}>
                     <ul>
+                        <li>{x.id}</li>
                         <li>{x.title}</li>
                         <li>{x.score}</li>
                         <li>{x.by}</li>
@@ -25,6 +26,8 @@ const MainPage = function (props) {
                         ' ' + ('0' + time.getHours()).slice(-2) +
                         ':' + ('0' + time.getMinutes()).slice(-2) +
                         ':' + ('0' + time.getSeconds()).slice(-2)}</li>
+                        <li>{x?.descendants}</li>
+                        <li>{x?.kids}</li>
                     </ul>
                 </Link>
             </div>
@@ -41,7 +44,7 @@ const MainPage = function (props) {
     }
 }
 
-let mapStateToProps = (state) => {
+/*let mapStateToProps = (state) => {
     return ({
         getNewsList: state.newsList_reducer.newsList,
         getNewsPage: state.newsList_reducer.newsPage,
@@ -52,6 +55,8 @@ let resultConnecting = connect(mapStateToProps, {
     handleNewsList,
     handleNewsPage,
     setUpdateNews,
+    handleComments
 })(MainPage);
 
-export default resultConnecting;
+export default resultConnecting;*/
+export default MainPage;

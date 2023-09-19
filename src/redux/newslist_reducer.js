@@ -4,12 +4,17 @@ const SET_NEWS_LIST = 'SET_NEWS_LIST';
 const SET_NEWS_PAGE = 'SET_NEWS_PAGE';
 const SET_UPDATE_NEWS = 'SET_UPDATE_NEWS';
 const SET_CURRENT_NEWS = 'SET_CURRENT_NEWS';
+const SET_COMMENTS = 'SET_COMMENTS';
+const DELETE_COMMENTS = 'DELETE_COMMENTS';
+const TOGGLE_IS_LOADING = 'TOGGLE_IS_LOADING';
 
 const initialState = {
     newsList: [],
     newsPage: {},
     updateNews: false,
-    currentNews:{},
+    currentNews: {},
+    comments: {},
+    isLoading: false,
 };
 
 const newsList_reducer = (state = initialState, action) => {
@@ -38,6 +43,25 @@ const newsList_reducer = (state = initialState, action) => {
                 currentNews: action.currentNews
             }
 
+        case SET_COMMENTS:
+            state.comments[action.comments.id] = action.comments;
+            return {
+                ...state,
+                comments: {...state.comments},
+            }
+
+        case DELETE_COMMENTS:
+            return {
+                ...state,
+                comments: {},
+            }
+
+        case TOGGLE_IS_LOADING:
+            return {
+                ...state,
+                isLoading: action.isLoading,
+            }
+
         default:
             return state;
     }
@@ -47,6 +71,9 @@ export const setNewsList = (newsList) => ({type: SET_NEWS_LIST, newsList});
 export const setNewsPage = (newsPage) => ({type: SET_NEWS_PAGE, newsPage});
 export const setUpdateNews = (updateNews) => ({type: SET_UPDATE_NEWS, updateNews});
 export const setCurrentNews = (currentNews) => ({type: SET_CURRENT_NEWS, currentNews});
+export const setComments = (comments) => ({type: SET_COMMENTS, comments});
+export const deleteComments = () => ({type: DELETE_COMMENTS});
+export const toggleIsLoading = (isLoading) => ({type: TOGGLE_IS_LOADING, isLoading});
 
 export const handleNewsList = () => {
     return (dispatch) => {
@@ -78,6 +105,23 @@ export const handleCurrentNews = (id) => {
                 console.log(err)
             }
         );
+    }
+}
+
+
+export const handleComments = (kids) => {
+
+    return (dispatch) => {
+        //dispatch(toggleIsLoading(true));
+        kids.forEach((id) => {
+            fetchNewsList.setNewsPage(id).then(data => {
+                dispatch(setComments(data.data));
+            }).catch(err => {
+                    console.log(err)
+                }
+            );
+        });
+        //dispatch(toggleIsLoading(false));
     }
 }
 
