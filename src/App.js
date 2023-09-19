@@ -29,7 +29,7 @@ const App = function (props) {
     useEffect(() => {
         if (props.getNewsList.length > 0) {
             //let newsList_100 = props.getNewsList.sort((a, b) => b - a).slice(0, 10);
-            let newsList_100 = props.getNewsList.slice(0,40);
+            let newsList_100 = props.getNewsList.slice(0,10);
             newsList_100.forEach((x) => {
                 //console.log(x)
                 props.handleNewsPage(x);

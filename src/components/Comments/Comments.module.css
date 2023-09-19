@@ -1,0 +1,11 @@
+.commentsList{
+
+}
+.comments{
+    display: block;
+    background-color: #e1e1e1;
+    margin: 20px;
+    width: auto;
+    border-radius: 5px;
+    padding: 0 10%;
+}

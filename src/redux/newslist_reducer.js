@@ -99,8 +99,10 @@ export const handleNewsPage = (id) => {
 
 export const handleCurrentNews = (id) => {
     return (dispatch) => {
+        dispatch(toggleIsLoading(true));
         fetchNewsList.setNewsPage(id).then(data => {
             dispatch(setCurrentNews(data.data));
+            dispatch(toggleIsLoading(false));
         }).catch(err => {
                 console.log(err)
             }
@@ -112,7 +114,7 @@ export const handleCurrentNews = (id) => {
 export const handleComments = (kids) => {
 
     return (dispatch) => {
-        //dispatch(toggleIsLoading(true));
+
         kids.forEach((id) => {
             fetchNewsList.setNewsPage(id).then(data => {
                 dispatch(setComments(data.data));
@@ -121,7 +123,7 @@ export const handleComments = (kids) => {
                 }
             );
         });
-        //dispatch(toggleIsLoading(false));
+
     }
 }
 

@@ -1,9 +1,10 @@
-import React, {useEffect} from "react";
-import {connect} from "react-redux";
-import {handleComments, handleNewsList, handleNewsPage, setUpdateNews,} from "../../redux/newslist_reducer";
+import React from "react";
 import s from "./MainPage.module.css";
-import MainPageList from "./MainPageList";
 import {Link} from "react-router-dom";
+import user from "../../assistive/icons/user.png";
+import thumbup from "../../assistive/icons/thumbup.png";
+import refresh from "../../assistive/icons/refresh.png";
+import {dateConverter} from "../../assistive/accessoryFunctions/dateСonverter";
 
 
 const MainPage = function (props) {
@@ -12,33 +13,30 @@ const MainPage = function (props) {
     if (Object.entries(props.getNewsPage).length !== 0) {
         let arr = Object.values(props.getNewsPage).sort((a, b) => b.time - a.time).map((x) => {
             let time = new Date(x.time * 1000);
-            let month = ['01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12']
-            return <div key={x.id}>
-                <Link to={'/'+ x.id}>
-                    <ul>
-                        <li>{x.id}</li>
-                        <li>{x.title}</li>
-                        <li>{x.score}</li>
-                        <li>{x.by}</li>
-                        <li>{('0' + time.getDate()).slice(-2) +
-                        '.' + month[time.getMonth()] +
-                        '.' + time.getFullYear() +
-                        ' ' + ('0' + time.getHours()).slice(-2) +
-                        ':' + ('0' + time.getMinutes()).slice(-2) +
-                        ':' + ('0' + time.getSeconds()).slice(-2)}</li>
-                        <li>{x?.descendants}</li>
-                        <li>{x?.kids}</li>
-                    </ul>
+            return <div key={x.id} className={s.card}>
+                <Link to={'/' + x.id}>
+                    <div className={s.news_card}>
+                        <div className={s.news_card__date}>{dateConverter(time)}</div>
+                        <div className={s.news_card__score}><img src={thumbup} alt='thumb up'/> {x.score}  {x?.descendants}</div>
+                        <div className={s.news_card__title}>{x.title}</div>
+                        <div className={s.news_card__by}><img src={user} alt='user'/>{x.by}</div>
+
+
+{/*                        <div>{x?.descendants}</div>
+                        <div>{x?.kids}</div>*/}
+                    </div>
                 </Link>
             </div>
         })
 
-        let updateNow = ()=>{
+        let updateNow = () => {
             props.setUpdateNews(true);
         }
 
         return <>
-            <div>Последнее обновление: {String(lastUpdate)} <stan onClick={updateNow}>Обновить</stan></div>
+            <div className={s.refresh_list} onClick={updateNow}>Последнее обновление: {dateConverter(lastUpdate)}
+                <span><img src={refresh} alt='Обновить'/></span> Обновить
+            </div>
             <div>{arr}</div>
         </>;
     }
