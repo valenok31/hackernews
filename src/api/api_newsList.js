@@ -8,16 +8,13 @@ export const fetchNewsList = {
         })
         return request.get(`newstories.json?print=pretty`)
             .then(response => {
-
                 return response;
             })
             .catch((err) => {
-                // TODO: response in case of error
                 console.log('no data')
                 return err;
             })
     },
-
 
     setNewsPage(id) {
         const request = axios.create({
@@ -28,7 +25,6 @@ export const fetchNewsList = {
                 return response;
             })
             .catch((err) => {
-                // TODO: response in case of error
                 console.log(err)
                 return err;
             })
