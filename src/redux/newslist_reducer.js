@@ -2,16 +2,15 @@ import {fetchNewsList} from "../api/api_newsList";
 
 const SET_NEWS_LIST = 'SET_NEWS_LIST';
 const SET_NEWS_PAGE = 'SET_NEWS_PAGE';
-const SET_UPDATE_NEWS = 'SET_UPDATE_NEWS';
 const SET_CURRENT_NEWS = 'SET_CURRENT_NEWS';
 const SET_COMMENTS = 'SET_COMMENTS';
 const DELETE_COMMENTS = 'DELETE_COMMENTS';
 const TOGGLE_IS_LOADING = 'TOGGLE_IS_LOADING';
+const SET_COMMENT_THREAD = 'SET_COMMENT_THREAD';
 
 const initialState = {
     newsList: [],
     newsPage: {},
-    updateNews: false,
     currentNews: {},
     comments: {},
     isLoading: false,
@@ -31,12 +30,6 @@ const newsList_reducer = (state = initialState, action) => {
                 newsPage: {...state.newsPage},
             }
 
-        case SET_UPDATE_NEWS:
-            return {
-                ...state,
-                updateNews: action.updateNews
-            }
-
         case SET_CURRENT_NEWS:
             return {
                 ...state,
@@ -44,7 +37,15 @@ const newsList_reducer = (state = initialState, action) => {
             }
 
         case SET_COMMENTS:
-            state.comments[action.comments.id] = action.comments;
+            state.comments[action?.comments?.id] = action.comments;
+            state.comments[action?.comments?.id].commentThread = {};
+            return {
+                ...state,
+                comments: {...state.comments},
+            }
+
+        case SET_COMMENT_THREAD:
+            state.comments[action?.comments?.parent].commentThread[action?.comments?.id] = action.comments;
             return {
                 ...state,
                 comments: {...state.comments},
@@ -68,32 +69,32 @@ const newsList_reducer = (state = initialState, action) => {
 };
 
 export const setNewsList = (newsList) => ({type: SET_NEWS_LIST, newsList});
-export const setNewsPage = (newsPage) => ({type: SET_NEWS_PAGE, newsPage});
-export const setUpdateNews = (updateNews) => ({type: SET_UPDATE_NEWS, updateNews});
+export const setNewsPageD = (newsPage) => ({type: SET_NEWS_PAGE, newsPage});
 export const setCurrentNews = (currentNews) => ({type: SET_CURRENT_NEWS, currentNews});
 export const setComments = (comments) => ({type: SET_COMMENTS, comments});
 export const deleteComments = () => ({type: DELETE_COMMENTS});
+export const setCommentThread = (comments) => ({type: SET_COMMENT_THREAD, comments});
 export const toggleIsLoading = (isLoading) => ({type: TOGGLE_IS_LOADING, isLoading});
 
 export const handleNewsList = () => {
     return (dispatch) => {
+        dispatch(toggleIsLoading(true));
         fetchNewsList.fromHackerNews().then(data => {
             dispatch(setNewsList(data.data));
+            let newsList_100 = data.data.slice(0, 100);
+            newsList_100.forEach((x) => {
+                fetchNewsList.setNewsPage(x).then(data => {
+                    dispatch(setNewsPageD(data.data));
+                }).catch(err => {
+                        console.log(err)
+                    }
+                );
+            });
         }).catch(err => {
                 console.log(err)
             }
         );
-    }
-}
-
-export const handleNewsPage = (id) => {
-    return (dispatch) => {
-        fetchNewsList.setNewsPage(id).then(data => {
-            dispatch(setNewsPage(data.data));
-        }).catch(err => {
-                console.log(err)
-            }
-        );
+        dispatch(toggleIsLoading(false));
     }
 }
 
@@ -101,29 +102,39 @@ export const handleCurrentNews = (id) => {
     return (dispatch) => {
         dispatch(toggleIsLoading(true));
         fetchNewsList.setNewsPage(id).then(data => {
+            dispatch(deleteComments());
+            if(!!data?.data?.kids){
+                data?.data?.kids.forEach((id) => {
+                    fetchNewsList.setNewsPage(id).then(data => {
+                        dispatch(setComments(data.data));
+                    }).catch(err => {
+                            console.log(err)
+                        }
+                    );
+                });
+            }
             dispatch(setCurrentNews(data.data));
-            dispatch(toggleIsLoading(false));
         }).catch(err => {
                 console.log(err)
             }
         );
+        dispatch(toggleIsLoading(false));
     }
 }
 
 
-export const handleComments = (kids) => {
-
+export const handleCommentsThread = (comment) => {
     return (dispatch) => {
-
-        kids.forEach((id) => {
+        dispatch(toggleIsLoading(true));
+        comment.kids.forEach((id) => {
             fetchNewsList.setNewsPage(id).then(data => {
-                dispatch(setComments(data.data));
+                dispatch(setCommentThread(data.data));
             }).catch(err => {
                     console.log(err)
                 }
             );
+            dispatch(toggleIsLoading(false));
         });
-
     }
 }
 

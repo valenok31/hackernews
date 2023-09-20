@@ -1,4 +1,3 @@
-import s from "../../components/MainPage/MainPage.module.css";
 import React from "react";
 
 export const dateConverter = (date) => {

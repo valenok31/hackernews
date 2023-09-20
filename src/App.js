@@ -1,60 +1,33 @@
-import s from './App.module.css'
-import {Route, Routes} from 'react-router-dom';
 import React, {useEffect, useState} from "react";
 import {connect} from "react-redux";
 import {compose} from "redux";
-import MainPage from "./components/MainPage/MainPage";
-import NewsPage from "./components/NewsPage/NewsPage";
 import {
-    deleteComments, handleComments,
+    handleCommentsThread,
     handleCurrentNews,
     handleNewsList,
-    handleNewsPage, setNewsList,
-    setUpdateNews, toggleIsLoading
+    setCommentThread,
+    setNewsList,
 } from "./redux/newslist_reducer";
+import RouteComponent from "./components/RouteСomponent/RouteСomponent";
 
 const App = function (props) {
 
-    const [fakeCurrentDate, setFakeCurrentDate] = useState(new Date())
-
+    /* Обновление каждую минуту или в ручную */
+    const [minuteUpdate, setMinuteUpdate] = useState(true)
     useEffect(() => {
-        setTimeout(() => setFakeCurrentDate(new Date()), 60000)
+        setTimeout(() => setMinuteUpdate(!minuteUpdate), 60000)
         props.handleNewsList();
-        props.deleteComments();
-        props.setUpdateNews(false);
-    }, [fakeCurrentDate,props.getUpdateNews]);
+    }, [minuteUpdate]);
+    let updateNow = () => {
+        setMinuteUpdate(!minuteUpdate)
+    }
 
-
-
-    useEffect(() => {
-        if (props.getNewsList.length > 0) {
-            //let newsList_100 = props.getNewsList.sort((a, b) => b - a).slice(0, 10);
-            let newsList_100 = props.getNewsList.slice(0,10);
-            newsList_100.forEach((x) => {
-                //console.log(x)
-                props.handleNewsPage(x);
-            });
-        }
-
-    }, [props.getNewsList]);
-
-    return (<div className={s.app__container}>
-
-            <div>
-                <Routes>
-                    <Route path='/' element={<MainPage {...props}/>}/>
-                    <Route path='/*' element={<NewsPage {...props}/>}/>
-                </Routes>
-            </div>
-        </div>
-    )
-
+    return <RouteComponent {...props} updateNow={updateNow}/>
 }
 
 let mapStateToProps = (state) => ({
     getNewsList: state.newsList_reducer.newsList,
     getNewsPage: state.newsList_reducer.newsPage,
-    getUpdateNews: state.newsList_reducer.updateNews,
     getComments: state.newsList_reducer.comments,
     getCurrentNews: state.newsList_reducer.currentNews,
     isLoading: state.newsList_reducer.isLoading,
@@ -63,11 +36,8 @@ let mapStateToProps = (state) => ({
 export default compose(
     connect(mapStateToProps, {
         handleNewsList,
-        handleNewsPage,
-        setUpdateNews,
-        deleteComments,
         handleCurrentNews,
-        handleComments,
         setNewsList,
-    }))
-(App);
+        setCommentThread,
+        handleCommentsThread,
+    }))(App);

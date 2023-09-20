@@ -9,3 +9,31 @@
     border-radius: 5px;
     padding: 0 10%;
 }
+
+.refresh_list{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    font-size: 16px;
+    font-family: 'Montserrat', sans-serif;
+    color: #545454;
+    cursor: pointer;
+}
+.refresh_list span{
+    margin: 5px;
+}
+
+.refresh_list:hover{
+    color: #0066ff;
+}
+
+.no_comments{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    font-size: 18px;
+    font-family: 'Montserrat', sans-serif;
+    color: #424242;
+}

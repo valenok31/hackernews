@@ -1,39 +1,21 @@
 import React from "react";
-import {dateConverter} from "../../assistive/accessoryFunctions/dateСonverter";
-import s from "../Comments/Comments.module.css";
-import plus from "../../assistive/icons/plus.png";
+import CollectorComments from "./CollectorComments/CollectorComments";
+import s from "./Comments.module.css";
+
 
 const Comments = function (props) {
 
-
-    if (Object.entries(props.getComments)?.length !== 0) {
-let plusComments = ()=>{
-
-}
-        let arr = Object.values(props.getComments).sort((a, b) => b.time - a.time).map((x) => {
-            if (x.parent == props.id) {
-                let time = new Date(x.time * 1000);
-                let plus = <div></div>
-                if(!!x?.kids){
-                    plus = <div onClick={plusComments}><img src={plus} alt='plus'/></div>
-                }
-                return <div key={x.id} className={s.comments}>
-                    {/*<div>{x.parent}</div>*/}
-                    <div>{dateConverter(time)}</div>
-                    <div><b>{x.by}:</b> {x.text}</div>
-                    {plus}
-                </div>
-            }
-
-        })
-
-
-        return <>
-            <h1>Комментарии</h1>
-            <div>{arr}</div>
-
-        </>
+    let plusComments = (parent) => {
+        props.handleCommentsThread(parent);
     }
+
+    if (!!Object.values(props.getComments).length) {
+        return Object.values(props.getComments).slice().sort((a, b) => b.id - a.id).map((x) => {
+            return <CollectorComments getComments={x} plusComments={plusComments}
+                                      getCommentThread={props.getComments[x.id].commentThread}/>
+        })
+    }
+    return <div className={s.no_comments}>Нет комментариев</div>
 }
 
 export default Comments;

@@ -8,6 +8,7 @@ export const fetchNewsList = {
         })
         return request.get(`newstories.json?print=pretty`)
             .then(response => {
+
                 return response;
             })
             .catch((err) => {
@@ -28,7 +29,7 @@ export const fetchNewsList = {
             })
             .catch((err) => {
                 // TODO: response in case of error
-                console.log('no data')
+                console.log(err)
                 return err;
             })
     },
