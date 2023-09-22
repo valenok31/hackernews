@@ -15,8 +15,8 @@ const CollectorMainPage = function (props) {
                 <div className={s.news_card}>
                     <div className={s.news_card__date}>{dateConverter(time)}</div>
                     <div className={s.news_card__score}>
-                        <img src={thumb_up} alt='thumb up'/> {x.score}   <img src={comment}
-                                                                              alt='comment'/> {x?.descendants}</div>
+                        <img src={thumb_up} alt='thumb up'/> {x.score} <img src={comment}
+                                                                            alt='comment'/> {x?.descendants}</div>
                     <div className={s.news_card__title}>{x.title}</div>
                     <div className={s.news_card__by}><img src={user} alt='user'/>{x.by}</div>
                 </div>
