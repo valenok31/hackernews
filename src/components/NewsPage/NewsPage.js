@@ -10,7 +10,6 @@ import refresh from "../../assistive/icons/refresh.png";
 const NewsPage = function (props) {
 
     const id = useLocation().pathname.slice(1);
-
     const [minuteUpdate, setMinuteUpdate] = useState(true)
     useEffect(() => {
         setTimeout(() => setMinuteUpdate(!minuteUpdate), 60000)
@@ -31,7 +30,11 @@ const NewsPage = function (props) {
             <div className={s.refresh_list} onClick={updatePage}>Последнее обновление: {dateConverter(new Date())}
                 <span><img src={refresh} alt='Обновить'/></span> Обновить
             </div>
-            <Comments getComments={props.getComments} id={id} setCommentThread={props.setCommentThread} handleCommentsThread={props.handleCommentsThread}/>
+            <Comments getComments={props.getComments} id={id}
+                      setCommentThread={props.setCommentThread}
+                      handleCommentsThread={props.handleCommentsThread}
+                      isLoading={props.isLoading}
+            />
         </>
     }
 }

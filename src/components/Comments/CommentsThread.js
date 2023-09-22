@@ -2,6 +2,7 @@ import React from "react";
 import s from "./Comments.module.css";
 import {dateConverter} from "../../assistive/accessoryFunctions/dateСonverter";
 import down from "../../assistive/icons/down64.png";
+import load from "../../assistive/icons/animatedIcon.gif";
 
 
 const CommentsThread = function (props) {
@@ -15,7 +16,7 @@ const CommentsThread = function (props) {
         })
     } else {
         return <div className={s.refresh_list} onClick={() => props.plusComments(props.getComments)}>
-            <img src={down} alt='down'/>
+            {props.isLoading? <img src={load} alt='load'/>:<img src={down} alt='down'/>}
         </div>
     }
 }

@@ -103,7 +103,7 @@ export const handleCurrentNews = (id) => {
         dispatch(toggleIsLoading(true));
         fetchNewsList.setNewsPage(id).then(data => {
             dispatch(deleteComments());
-            if(!!data?.data?.kids){
+            if (!!data?.data?.kids) {
                 data?.data?.kids.forEach((id) => {
                     fetchNewsList.setNewsPage(id).then(data => {
                         dispatch(setComments(data.data));
@@ -133,8 +133,8 @@ export const handleCommentsThread = (comment) => {
                     console.log(err)
                 }
             );
-            dispatch(toggleIsLoading(false));
-        });
+        })
+        dispatch(toggleIsLoading(false));
     }
 }
 

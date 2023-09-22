@@ -11,8 +11,10 @@ const CollectorComments = function (props) {
         <div>{dateConverter(new Date(x.time * 1000))}</div>
         <div><b>{x.by}:</b> {x.text}</div>
         {!!x?.kids ?
-            <CommentsThread getCommentThread={props.getCommentThread} getComments={props.getComments}
-                            plusComments={props.plusComments}/> : ''}
+            <CommentsThread getCommentThread={props.getCommentThread}
+                            getComments={props.getComments}
+                            plusComments={props.plusComments}
+                            isLoading={props.isLoading}/> : ''}
     </div>
 }
 
