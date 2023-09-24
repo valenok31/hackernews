@@ -59,6 +59,8 @@ a{
 }
 
 .refresh_list{
+    font-family: 'Montserrat', sans-serif;
+    color: #545454;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -66,13 +68,24 @@ a{
     font-size: 16px;
     cursor: pointer;
 }
-.refresh_list span{
-    margin: 5px;
-}
 
 .refresh_list:hover{
     color: #0066ff;
 }
+
+.refresh_list img{
+    margin: 5px;
+    cursor: pointer;
+    transition: all 0.6s;
+}
+
+.refresh_list img:hover{
+    transform: rotate(360deg);
+}
+
+
+
+
 
 @media (max-width: 900px) {
     .news_card__title {

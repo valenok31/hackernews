@@ -15,7 +15,7 @@ const CommentsThread = function (props) {
             </div>
         })
     } else {
-        return <div className={s.refresh_list} onClick={() => props.plusComments(props.getComments)}>
+        return <div className={s.get_comments} onClick={() => props.plusComments(props.getComments)}>
             {props.isLoading? <img src={load} alt='load'/>:<img src={down} alt='down'/>}
         </div>
     }

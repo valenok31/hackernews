@@ -28,7 +28,7 @@ const NewsPage = function (props) {
 
             <h1>Комментарии ({props.getCurrentNews?.descendants})</h1>
             <div className={s.refresh_list} onClick={updatePage}>Последнее обновление: {dateConverter(new Date())}
-                <span><img src={refresh} alt='Обновить'/></span> Обновить
+                <img src={refresh} alt='Обновить'/> Обновить
             </div>
             <Comments getComments={props.getComments} id={id}
                       setCommentThread={props.setCommentThread}

@@ -16,7 +16,7 @@ const Comments = function (props) {
                                       isLoading={props.isLoading}/>
         })
     }
-    return <div className={s.no_comments}>Нет комментариев</div>
+    return <div className={s.no_comments}>Нет комментариев :(</div>
 }
 
 export default Comments;
