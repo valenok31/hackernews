@@ -86,15 +86,12 @@ export const handleNewsList = () => {
                 fetchNewsList.setNewsPage(x).then(data => {
                     dispatch(setNewsPageD(data.data));
                 }).catch(err => {
-                        console.log(err)
-                    }
-                );
+                    console.log(err)
+                });
             });
         }).catch(err => {
-                console.log(err)
-            }
-        );
-        dispatch(toggleIsLoading(false));
+            console.log(err)
+        }).finally(dispatch(toggleIsLoading(false)));
     }
 }
 
@@ -108,20 +105,17 @@ export const handleCurrentNews = (id) => {
                     fetchNewsList.setNewsPage(id).then(data => {
                         dispatch(setComments(data.data));
                     }).catch(err => {
-                            console.log(err)
-                        }
-                    );
+                        console.log(err)
+                    });
                 });
             }
             dispatch(setCurrentNews(data.data));
         }).catch(err => {
-                console.log(err)
-            }
-        );
-        dispatch(toggleIsLoading(false));
+            console.log(err)
+        })
+            .finally(dispatch(toggleIsLoading(false)));
     }
 }
-
 
 export const handleCommentsThread = (comment) => {
     return (dispatch) => {
@@ -132,9 +126,8 @@ export const handleCommentsThread = (comment) => {
             }).catch(err => {
                     console.log(err)
                 }
-            );
+            ).finally(dispatch(toggleIsLoading(false)));
         })
-        dispatch(toggleIsLoading(false));
     }
 }
 
