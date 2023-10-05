@@ -12,7 +12,7 @@ import RouteComponent from "./components/RouteСomponent/RouteСomponent";
 
 const App = function (props) {
 
-    /* Обновление каждую минуту или в ручную */
+    /* Обновление каждую минуту или вручную */
     const [minuteUpdate, setMinuteUpdate] = useState(true)
     useEffect(() => {
         setTimeout(() => setMinuteUpdate(!minuteUpdate), 60000)
