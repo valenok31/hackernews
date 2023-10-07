@@ -95,11 +95,15 @@ export const handleNewsList = () => {
     }
 }
 
+
 export const handleCurrentNews = (id) => {
     return (dispatch) => {
         dispatch(toggleIsLoading(true));
         fetchNewsList.setNewsPage(id).then(data => {
             dispatch(deleteComments());
+            /**
+             * @param {{kids:string}} data
+             */
             if (!!data?.data?.kids) {
                 data?.data?.kids.forEach((id) => {
                     fetchNewsList.setNewsPage(id).then(data => {
